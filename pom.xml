@@ -12,7 +12,10 @@
             <email>aravind4532@gmail.com</email>
         </developer>
   </developers>
-  
+  <properties>
+    <java-version>1.8</java-version>
+</properties>
+
   <dependencies>
         <dependency>
             <groupId>org.apache.hadoop</groupId>

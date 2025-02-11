@@ -44,7 +44,7 @@ mv target/*.jar shared-folder/input/code/
 Copy the JAR file to the Hadoop ResourceManager container:
 
 ```bash
-docker cp shared-folder/input/code/<your-jar-file>.jar resourcemanager:/opt/hadoop-3.2.1/share/hadoop/mapreduce/
+docker cp shared-folder/input/code/WordCountUsingHadoop-0.0.1-SNAPSHOT.jar resourcemanager:/opt/hadoop-3.2.1/share/hadoop/mapreduce/
 ```
 
 ### 5. **Move Dataset to Docker Container**
@@ -88,7 +88,7 @@ hadoop fs -put ./input.txt /input/dataset
 Run your MapReduce job using the following command:
 
 ```bash
-hadoop jar /opt/hadoop-3.2.1/share/hadoop/mapreduce/<your-jar-file>.jar com.example.controller.Controller /input/dataset/input.txt /output
+hadoop jar /opt/hadoop-3.2.1/share/hadoop/mapreduce/WordCountUsingHadoop-0.0.1-SNAPSHOT.jar com.example.controller.Controller /input/dataset/input.txt /output
 ```
 
 ### 9. **View the Output**
@@ -116,3 +116,91 @@ To copy the output from HDFS to your local machine:
     docker cp resourcemanager:/opt/hadoop-3.2.1/share/hadoop/mapreduce/output/ shared-folder/output/
     ```
 3. Commit and push to your repo so that we can able to see your output
+
+### ** Project Overview **
+
+This project demonstrates a **Word Count** implementation using Hadoop **MapReduce**. It processes a large dataset, counts the frequency of words, and outputs the results. The project is executed inside a **Dockerized Hadoop cluster** to simulate a distributed computing environment.
+
+### **1️⃣ Mapper (WordMapper.java)**  
+
+- Reads input text line by line.
+- Splits each line into words.
+- Emits **(word, 1)** pairs as output.
+
+### **2️⃣ Reducer (WordReducer.java)**  
+
+- Receives grouped key-value pairs **(word, [1,1,1,...])**.
+- Aggregates the counts for each word.
+- Outputs **(word, total_count)**.
+
+### **3️⃣ Driver (Controller.java)** 
+
+- Configures and initiates the MapReduce job.
+- Specifies the **input path, output path, and Mapper/Reducer classes**.
+- Handles job execution and monitoring.
+
+
+### ** Input And Output **
+
+ ### sample input
+```bash
+Hello world
+Hello Hadoop
+Hadoop is powerful
+Hadoop is used for big data
+```
+### Sample output
+
+```bash 
+Hadoop  3
+MapReduce       1
+Rather  1
+a       2
+across  1
+allows  1
+and     2
+application     1
+at      1
+clusters        1
+component       1
+computation     1
+computers.      1
+core    1
+data    1
+deliver 1
+designed        2
+detect  1
+distributed     1
+each    1
+ecosystems.     1
+failures        1
+for     1
+framework       1
+from    1
+handle  1
+hardware        1
+high-availability,      1
+is      4
+itself  1
+large   1
+layer.  1
+library 1
+local   1
+machines,       1
+of      4
+offering        1
+on      1
+processing      1
+rely    1
+scale   1
+servers 1
+sets    1
+single  1
+storage.        1
+than    1
+that    1
+the     4
+thousands       1
+to      4
+up      1
+```
